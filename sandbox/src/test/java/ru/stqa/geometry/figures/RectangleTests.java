@@ -17,7 +17,7 @@ public class RectangleTests {
 
   @Test
   void testEquality(){
-    var r1 = new Rectangle(4,5);
+    var r1 = new Rectangle(4, 5);
     var r2 = new Rectangle(4, 5);
     Assertions.assertEquals(r1, r2);
   }
@@ -25,7 +25,7 @@ public class RectangleTests {
   @Test
   void testEquality2(){
     var r1 = new Rectangle(4,5);
-    var r2 = new Rectangle(5, 4);
+    var r2 = new Rectangle(5,4);
     Assertions.assertEquals(r1, r2);
   }
 }

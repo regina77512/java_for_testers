@@ -3,9 +3,10 @@ package ru.stqa.geometry.figures;
 import java.util.Objects;
 
 public class Triangle {
-double a;
-double b;
-double c;
+
+  double a;
+  double b;
+  double c;
 
   @Override
   public boolean equals(Object o) {
@@ -20,6 +21,22 @@ double c;
         Double.compare(this.b, triangle.a) == 0
             && Double.compare(this.a, triangle.b) == 0
             && Double.compare(this.c, triangle.c) == 0
+        ||
+        Double.compare(this.a, triangle.a) == 0
+            && Double.compare(this.c, triangle.b) == 0
+            && Double.compare(this.b, triangle.c) == 0
+        ||
+        Double.compare(this.b, triangle.a) == 0
+            && Double.compare(this.c, triangle.b) == 0
+            && Double.compare(this.a, triangle.c) == 0
+        ||
+        Double.compare(this.c, triangle.a) == 0
+            && Double.compare(this.b, triangle.b) == 0
+            && Double.compare(this.a, triangle.c) == 0
+        ||
+        Double.compare(this.c, triangle.a) == 0
+            && Double.compare(this.a, triangle.b) == 0
+            && Double.compare(this.b, triangle.c) == 0
         ;
   }
 
@@ -33,33 +50,36 @@ double c;
     this.b = b;
     this.c = c;
 
-    if (a < 0 || b < 0 || c < 0){
+    if (a < 0 || b < 0 || c < 0) {
       throw new IllegalArgumentException("Triangle side should be non-negative");
     }
 
-    if (((a + b) < c) || ((b + c) < a) || ((c + a) < b)){
-      throw new IllegalArgumentException("The sum of any two sides of a triangle cannot be less than the third");
+    if (((a + b) < c) || ((b + c) < a) || ((c + a) < b)) {
+      throw new IllegalArgumentException(
+          "The sum of any two sides of a triangle cannot be less than the third");
     }
   }
 
-
   public static void printTriangleArea(Triangle triangle1) {
-    String text = String.format("Площадь треугольника со сторонами %f, %f и %f = %f", triangle1.a, triangle1.b, triangle1.c, triangle1.area());
+    String text = String.format("Площадь треугольника со сторонами %f, %f и %f = %f", triangle1.a,
+        triangle1.b, triangle1.c, triangle1.area());
     System.out.println(text);
   }
 
   public static void printTrianglePerimeter(Triangle triangle1) {
-    String text = String.format("Периметр треугольника со сторонами %f, %f и %f = %f", triangle1.a, triangle1.b, triangle1.c, triangle1.perimeter());
+    String text = String.format("Периметр треугольника со сторонами %f, %f и %f = %f", triangle1.a,
+        triangle1.b, triangle1.c, triangle1.perimeter());
     System.out.println(text);
   }
 
-
   public double area() {
-    return Math.sqrt(semiperimeter() * (semiperimeter() - this.a) * (semiperimeter() - this.b) * (semiperimeter() - this.c));
+    return Math.sqrt(
+        semiperimeter() * (semiperimeter() - this.a) * (semiperimeter() - this.b) * (semiperimeter()
+            - this.c));
   }
 
   private double semiperimeter() {
-    return (perimeter()/2);
+    return (perimeter() / 2);
   }
 
   public double perimeter() {
