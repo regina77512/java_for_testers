@@ -1,3 +1,4 @@
+import model.GroupData;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
@@ -8,7 +9,7 @@ public class GroupRemovalTests extends TestBase {
     openGroupsPage();
     if (!isGroupPresent()) {
       driver.findElement(By.linkText("groups")).click();
-      createGroup("", "", "");
+      createGroup(new GroupData("", "", ""));
     }
     removeGroup();
   }
