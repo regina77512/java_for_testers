@@ -5,35 +5,33 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import tests.TestBase;
 
-public class GroupContactTests{
-private WebDriver driver;
+public class GroupContactTests {
+
+  private static WebDriver driver;
 
   @BeforeEach
-  public void setup(){
-    driver = new FirefoxDriver();
-    driver.get("http://localhost/addressbook/");
-    driver.manage().window().setSize(new Dimension(966, 677));
-    driver.findElement(By.name("user")).sendKeys("admin");
-    driver.findElement(By.name("pass")).sendKeys("secret");
-    driver.findElement(By.xpath("//input[@value=\'Login\']")).click();
+  public void setup() {
+    if (driver == null) {
+      driver = new FirefoxDriver();
+      Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
+      driver.get("http://localhost/addressbook/");
+      driver.manage().window().setSize(new Dimension(966, 677));
+      driver.findElement(By.name("user")).sendKeys("admin");
+      driver.findElement(By.name("pass")).sendKeys("secret");
+      driver.findElement(By.xpath("//input[@value=\'Login\']")).click();
+    }
   }
-
-
-
-  @AfterEach
-  public void tearDown(){
-    driver.quit();
-  }
-
 
   @Test
   public void canCreateContact() {
-
-    driver.findElement(By.linkText("add new")).click();
+    if (!isElementPresent(By.xpath("//h1[contains(text(),'Edit / add address book entry')]"))) {
+      driver.findElement(By.linkText("add new")).click();
+    }
     driver.findElement(By.name("firstname")).click();
     driver.findElement(By.name("firstname")).sendKeys("Иванов");
     driver.findElement(By.name("middlename")).click();
@@ -45,5 +43,14 @@ private WebDriver driver;
     driver.findElement(By.xpath("(//input[@name=\'submit\'])[2]")).click();
     driver.findElement(By.linkText("home page")).click();
     driver.findElement(By.linkText("Logout")).click();
+  }
+
+  private boolean isElementPresent(By locator) {
+    try {
+      driver.findElement(locator);
+      return true;
+    } catch (NoSuchElementException exception) {
+      return false;
+    }
   }
 }
