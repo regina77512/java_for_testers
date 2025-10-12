@@ -1,6 +1,5 @@
 package manager;
 
-import model.ContactData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
@@ -16,6 +15,7 @@ public class ApplicationManager {
 
   private GroupHelper groups;
 
+  private ContactHelper contacts;
 
   public void init(String browser) {
     if (driver == null) {
@@ -47,6 +47,12 @@ public class ApplicationManager {
     return groups;
   }
 
+  public ContactHelper contacts() {
+    if (contacts == null) {
+      contacts = new ContactHelper(this);
+    }return contacts;
+  }
+
   public boolean isElementPresent(By locator) {
     try {
       driver.findElement(locator);
@@ -56,24 +62,4 @@ public class ApplicationManager {
     }
   }
 
-  public void createContact(ContactData contact) {
-    driver.findElement(By.name("firstname")).click();
-    driver.findElement(By.name("firstname")).sendKeys(contact.firstName());
-    driver.findElement(By.name("lastname")).click();
-    driver.findElement(By.name("lastname")).sendKeys(contact.lastName());
-    driver.findElement(By.name("address")).click();
-    driver.findElement(By.name("address")).sendKeys(contact.address());
-    driver.findElement(By.name("mobile")).click();
-    driver.findElement(By.name("mobile")).sendKeys(contact.mobile());
-    driver.findElement(By.name("email")).click();
-    driver.findElement(By.name("email")).sendKeys(contact.email());
-    driver.findElement(By.xpath("(//input[@name=\'submit\'])[2]")).click();
-    driver.findElement(By.linkText("home page")).click();
-  }
-
-  public void openContactPage() {
-    if (!isElementPresent(By.xpath("//h1[contains(text(),'Edit / add address book entry')]"))) {
-      driver.findElement(By.linkText("add new")).click();
-    }
-  }
 }
