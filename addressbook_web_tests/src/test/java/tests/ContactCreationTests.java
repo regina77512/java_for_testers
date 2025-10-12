@@ -7,14 +7,14 @@ public class ContactCreationTests extends TestBase{
 
   @Test
   public void canCreateContact() {
-    openContactPage();
-    createContact(new ContactData("Петр", "Самойлов", "ул. Партизанская 1", "12345", "test@ya.ru"));
+    app.openContactPage();
+    app.createContact(new ContactData("Петр", "Самойлов", "ул. Партизанская 1", "12345", "test@ya.ru"));
   }
 
   @Test
   public void canCreateContactWithoutAddressAndEmail() {
-    openContactPage();
-    createContact(new ContactData().withoutAddressAndEmail("Андрей", "Дьяченко", "12345678"));
+    app.openContactPage();
+    app.createContact(new ContactData().withoutAddressAndEmail("Андрей", "Дьяченко", "12345678"));
   }
 
 }
