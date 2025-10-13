@@ -3,12 +3,10 @@ package manager;
 import model.ContactData;
 import org.openqa.selenium.By;
 
-public class ContactHelper {
-
-  private final ApplicationManager manager;
+public class ContactHelper extends HelperBase {
 
   public ContactHelper(ApplicationManager manager) {
-    this.manager = manager;
+    super(manager);
   }
 
   public void createContact(ContactData contact) {
@@ -37,13 +35,9 @@ public class ContactHelper {
     type(By.name("email"), contact.email());
   }
 
-  private void type(By locator, String text) {
-    click(locator);
-    manager.driver.findElement(locator).sendKeys(text);
-  }
-
   public void openContactAddPage() {
-    if (!manager.isElementPresent(By.xpath("//h1[contains(text(),'Edit / add address book entry')]"))) {
+    if (!manager.isElementPresent(
+        By.xpath("//h1[contains(text(),'Edit / add address book entry')]"))) {
       click(By.linkText("add new"));
     }
   }
@@ -69,9 +63,5 @@ public class ContactHelper {
 
   private void selectContact() {
     click(By.name("selected[]"));
-  }
-
-  private void click(By locator) {
-    manager.driver.findElement(locator).click();
   }
 }
