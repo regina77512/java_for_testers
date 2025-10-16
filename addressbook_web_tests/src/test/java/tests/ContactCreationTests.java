@@ -1,22 +1,41 @@
 package tests;
 
+import java.util.ArrayList;
+import java.util.List;
 import model.ContactData;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class ContactCreationTests extends TestBase{
 
-  @Test
-  public void canCreateContact() {
-    app.contacts().openContactAddPage();
-    app.contacts().createContact(new ContactData("Петр", "Самойлов", "ул. Партизанская 1", "12345", "test@ya.ru"));
+  public static List<ContactData> contactProvider() {
+    var result = new ArrayList<ContactData>();
+    for (var firstname : List.of("", "Андрей")) {
+      for (var lastname : List.of("", "Сидоров")) {
+        for (var address : List.of("", "ул. Авроры 121")) {
+          for (var mobile : List.of("", "1234567890")) {
+            for (var email : List.of("", "test@mail.ru")) {
+              result.add(new ContactData(firstname, lastname, address, mobile, email));
+            }
+          }
+        }
+      }
+    }
+    for (int i = 0; i < 5; i++){
+      result.add(new ContactData(randomString(i * 10), randomString(i * 10), randomString(i * 10), randomString(i * 10),randomString(i * 10)));
+    }
+    return result;
   }
 
-  @Test
-  public void canCreateContactWithoutAddressAndEmail() {
-    app.contacts().openContactAddPage();
-    app.contacts().createContact(new ContactData().withoutAddressAndEmail("Андрей", "Дьяченко", "12345678"));
+  @ParameterizedTest
+  @MethodSource("contactProvider")
+  public void canCreateContact(ContactData contact) {
+    int contactCount = app.contacts().getCount();
+    app.contacts().createContact(contact);
+    int newContactCount = app.contacts().getCount();
+    Assertions.assertEquals(contactCount + 1, newContactCount);
   }
-
 }
 
 
