@@ -22,10 +22,10 @@ public class GroupCreationTests extends TestBase {
       }
     }
     for (int i = 0; i < 5; i++) {
-      result.add(new GroupData()
-          .withName(randomString(i * 10))
-          .withHeader(randomString(i * 10))
-          .withFooter(randomString(i * 10)));
+      result.add(new GroupData() //вызывается конструктор без параметров, а потом создаются объекты
+          .withName(randomString(i * 10)) // с модифицированным именем
+          .withHeader(randomString(i * 10)) // хедером
+          .withFooter(randomString(i * 10))); // и футером
     }
     return result;
   }

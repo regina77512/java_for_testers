@@ -32,9 +32,11 @@ public class GroupHelper extends HelperBase{
     returnToGroupsPage();
   }
 
-  public void modifyGroup(GroupData modifiedGroup) {
+  public void modifyGroup(GroupData group, GroupData modifiedGroup) {//метод modifyGroup должен принимать 2 параметра (то, что в скобках):
+    // в первом - группа, которая будет модифицироваться (GroupData group)
+    // второй параметр содержит данные, которыми будет заполняться форма при модификации группы
     openGroupsPage();
-    selectGroup(null);
+    selectGroup(group);
     initGroupModification();
     fillGroupForm(modifiedGroup);
     submitGroupModification();
@@ -94,8 +96,8 @@ private void initGroupModification() {
   }
 
   public List<GroupData> getList() {
-    var groups = new ArrayList<GroupData>(); // пустой список
-    var spans = manager.driver.findElements(By.cssSelector("span.group"));
+    var groups = new ArrayList<GroupData>(); // пустой список, в который будут складываться группы
+    var spans = manager.driver.findElements(By.cssSelector("span.group"));//получение со страницы списка элементов, который сод-т инф-ю о группах
     for (var span : spans){
       var name = span.getText();
       var checkbox = span.findElement(By.name("selected[]"));
