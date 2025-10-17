@@ -96,6 +96,7 @@ private void initGroupModification() {
   }
 
   public List<GroupData> getList() {
+    openGroupsPage();
     var groups = new ArrayList<GroupData>(); // пустой список, в который будут складываться группы
     var spans = manager.driver.findElements(By.cssSelector("span.group"));//получение со страницы списка элементов, который сод-т инф-ю о группах
     for (var span : spans){
