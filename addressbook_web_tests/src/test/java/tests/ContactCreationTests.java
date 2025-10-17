@@ -16,14 +16,17 @@ public class ContactCreationTests extends TestBase{
         for (var address : List.of("", "ул. Авроры 121")) {
           for (var mobile : List.of("", "1234567890")) {
             for (var email : List.of("", "test@mail.ru")) {
-              result.add(new ContactData(firstname, lastname, address, mobile, email));
+              result.add(new ContactData().withoutAddressAndEmail(firstname, lastname, mobile)
+                  .withLastName(lastname).withFirstName(firstname));
             }
           }
         }
       }
     }
     for (int i = 0; i < 5; i++){
-      result.add(new ContactData(randomString(i * 10), randomString(i * 10), randomString(i * 10), randomString(i * 10),randomString(i * 10)));
+      result.add(new ContactData()
+          .withoutAddressAndEmail(randomString(i * 5), randomString(i * 5), randomString(i * 5))
+          .withFirstName(randomString(i * 5)).withLastName(randomString(i * 5)));
     }
     return result;
   }
