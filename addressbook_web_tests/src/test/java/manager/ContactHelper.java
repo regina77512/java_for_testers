@@ -79,8 +79,26 @@ public class ContactHelper extends HelperBase {
       var checkbox = tr.findElement(By.name("selected[]"));
       var id = checkbox.getAttribute("value");
       var lastName = tr.findElement(By.cssSelector("td:nth-child(2)")).getText();
-      contacts.add(new ContactData().withId(id).withLastName(lastName));
+      var firstName = tr.findElement(By.cssSelector("td:nth-child(3)")).getText();
+      contacts.add(new ContactData().withId(id).withLastName(lastName).withFirstName(firstName));
     }
     return contacts;
+  }
+
+  public void modifiyContact(ContactData contact, ContactData modifiedContact) {
+    openContactsPage();
+    selectContact(contact);
+    initContactModification(contact);
+    fillContactForm(modifiedContact);
+    submitContactModification();
+    returnHomePage();
+  }
+
+  private void submitContactModification() {
+    click(By.name("update"));
+  }
+
+  private void initContactModification(ContactData contact) {
+    click(By.cssSelector(String.format("a[href*='edit.php?id=%s'] img", contact.id())));
   }
 }

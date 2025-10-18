@@ -5,7 +5,7 @@ import java.util.List;
 import model.GroupData;
 import org.openqa.selenium.By;
 
-public class GroupHelper extends HelperBase{
+public class GroupHelper extends HelperBase {
 
   public GroupHelper(ApplicationManager manager) {
     super(manager);
@@ -32,7 +32,8 @@ public class GroupHelper extends HelperBase{
     returnToGroupsPage();
   }
 
-  public void modifyGroup(GroupData group, GroupData modifiedGroup) {//метод modifyGroup должен принимать 2 параметра (то, что в скобках):
+  public void modifyGroup(GroupData group,
+      GroupData modifiedGroup) {//метод modifyGroup должен принимать 2 параметра (то, что в скобках):
     // в первом - группа, которая будет модифицироваться (GroupData group)
     // второй параметр содержит данные, которыми будет заполняться форма при модификации группы
     openGroupsPage();
@@ -50,7 +51,7 @@ public class GroupHelper extends HelperBase{
   private void initGroupCreation() {
     click(By.name("new"));
   }
-  
+
   private void removeSelectedGroups() {
     click(By.name("delete"));
   }
@@ -69,7 +70,7 @@ public class GroupHelper extends HelperBase{
     type(By.name("group_footer"), group.footer());
   }
 
-private void initGroupModification() {
+  private void initGroupModification() {
     click(By.name("edit"));
   }
 
@@ -78,8 +79,8 @@ private void initGroupModification() {
   }
 
   public int getCount() {
-   openGroupsPage();
-   return manager.driver.findElements(By.name("selected[]")).size();
+    openGroupsPage();
+    return manager.driver.findElements(By.name("selected[]")).size();
   }
 
   public void removeAllGroups() {
@@ -98,8 +99,9 @@ private void initGroupModification() {
   public List<GroupData> getList() {
     openGroupsPage();
     var groups = new ArrayList<GroupData>(); // пустой список, в который будут складываться группы
-    var spans = manager.driver.findElements(By.cssSelector("span.group"));//получение со страницы списка элементов, который сод-т инф-ю о группах
-    for (var span : spans){
+    var spans = manager.driver.findElements(By.cssSelector(
+        "span.group"));//получение со страницы списка элементов, который сод-т инф-ю о группах
+    for (var span : spans) {
       var name = span.getText();
       var checkbox = span.findElement(By.name("selected[]"));
       var id = checkbox.getAttribute("value");
