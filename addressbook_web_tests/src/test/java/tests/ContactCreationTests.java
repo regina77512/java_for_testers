@@ -21,7 +21,7 @@ public class ContactCreationTests extends TestBase{
                   .withLastName(lastname)
                   .withFirstName(firstname)
                   .withAddress(address)
-                  .withPhoto("src/test/resources/images/avatar.png")
+                  .withPhoto(randomFile("src/test/resources/images"))
               );
             }
           }
@@ -31,7 +31,7 @@ public class ContactCreationTests extends TestBase{
           .withFirstName(randomString(i * 10))
           .withLastName(randomString(i * 10))
           .withAddress(randomString(i * 10))
-          .withPhoto("src/test/resources/images/avatar.png")
+          .withPhoto(randomFile("src/test/resources/images"))
       );
     }
     return result;
