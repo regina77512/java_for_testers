@@ -1,9 +1,10 @@
 package tests;
 
+import static tests.TestBase.app;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 import model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,20 +17,21 @@ public class ContactCreationTests extends TestBase{
     for (var firstname : List.of("", "Андрей")) {
       for (var lastname : List.of("", "Сидоров")) {
         for (var address : List.of("", "ул. Авроры 121")) {
-          for (var mobile : List.of("", "1234567890")) {
-            for (var email : List.of("", "test@mail.ru")) {
-              result.add(new ContactData()//.withoutAddressAndEmail(firstname, lastname, mobile)
-                  .withLastName(lastname).withFirstName(firstname).withAddress(address).withMobile(mobile).withEmail(email)
+              result.add(new ContactData()
+                  .withLastName(lastname)
+                  .withFirstName(firstname)
+                  .withAddress(address)
+                  .withPhoto("src/test/resources/images/avatar.png")
               );
             }
           }
-        }
-      }
     }
     for (int i = 0; i < 5; i++){
       result.add(new ContactData()
-          //.withoutAddressAndEmail(randomString(i * 5), randomString(i * 5), randomString(i * 5))
-          .withFirstName(randomString(i * 5)).withLastName(randomString(i * 5)).withAddress(randomString(i * 5)).withMobile(randomString(i * 5)).withEmail(randomString(i * 5))
+          .withFirstName(randomString(i * 10))
+          .withLastName(randomString(i * 10))
+          .withAddress(randomString(i * 10))
+          .withPhoto("src/test/resources/images/avatar.png")
       );
     }
     return result;
@@ -46,10 +48,9 @@ public class ContactCreationTests extends TestBase{
     };
     newContacts.sort(compareById);
     var expectedList = new ArrayList<>(oldContacts);//копируем старый список
-    expectedList.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withAddress("").withMobile("").withEmail(""));
+    expectedList.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withAddress("").withPhoto(""));
     expectedList.sort(compareById);
     Assertions.assertEquals(newContacts, expectedList);
-
   }
 }
 

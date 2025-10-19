@@ -11,7 +11,7 @@ public class ContactRemovalTests extends TestBase{
   @Test
   void canRemoveContact(){
     if (app.contacts().getCount() == 0){
-      app.contacts().createContact(new ContactData("", "Сергей", "Колодежнов", "ул.Тухачевского 7", "112122","еук@mail.ru"));
+      app.contacts().createContact(new ContactData("", "Сергей", "Колодежнов", "ул.Тухачевского 7", ""));
     }
     var oldContacts = app.contacts().getList();
     var rnd = new Random();
