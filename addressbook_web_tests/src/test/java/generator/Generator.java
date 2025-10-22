@@ -4,6 +4,8 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import common.CommonFunctions;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,16 +15,16 @@ import model.GroupData;
 
 public class Generator {
 
-  @Parameter(names={"--type", "-t"})
+  @Parameter(names = {"--type", "-t"})
   String type;
 
-  @Parameter(names={"--output", "-0"})
+  @Parameter(names = {"--output", "-0"})
   String output;
 
-  @Parameter(names={"--format", "-f"})
+  @Parameter(names = {"--format", "-f"})
   String format;
 
-  @Parameter(names={"--count", "-n"})
+  @Parameter(names = {"--count", "-n"})
   int count;
 
   public static void main(String[] args) throws IOException {
@@ -39,12 +41,12 @@ public class Generator {
     save(data);
   }
 
-  private Object generate(){
-    if ("groups".equals(type)){
+  private Object generate() {
+    if ("groups".equals(type)) {
       return generateGroups();
-    }else if ("contacts".equals(type)){
+    } else if ("contacts".equals(type)) {
       return generateContacts();
-    }else {
+    } else {
       throw new IllegalArgumentException("Неизвестный тип данных " + type);
     }
   }
@@ -70,11 +72,17 @@ public class Generator {
       mapper.enable(SerializationFeature.INDENT_OUTPUT);
       var json = mapper.writeValueAsString(data);
 
-     try (var writer = new FileWriter(output)) {
-       writer.write(json);
-     }
+      try (var writer = new FileWriter(output)) {
+        writer.write(json);
+      }
+    } if ("yaml".equals(format)) {
+      var mapper = new YAMLMapper();
+      mapper.writeValue(new File(output), data);
+    } if ("xml".equals(format)) {
+        var mapper = new XmlMapper();
+        mapper.writeValue(new File(output), data);
     } else {
-      throw new IllegalArgumentException("Неизвестный формат данных " + format);
+        throw new IllegalArgumentException("Неизвестный формат данных " + format);
+      }
     }
   }
-}

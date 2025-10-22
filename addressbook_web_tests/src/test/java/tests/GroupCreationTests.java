@@ -2,6 +2,7 @@ package tests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import common.CommonFunctions;
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,8 +44,10 @@ public class GroupCreationTests extends TestBase {
       }
     }
     //var json = Files.readString(Paths.get("groups.json")); //файл читается построчно
-    ObjectMapper mapper = new ObjectMapper();
-    var value = mapper.readValue(json, new TypeReference<List<GroupData>>() {});
+    //ObjectMapper mapper = new ObjectMapper();
+    var mapper = new XmlMapper();
+   // var value = mapper.readValue(json, new TypeReference<List<GroupData>>() {});
+    var value = mapper.readValue(new File("groups.xml"), new TypeReference<List<GroupData>>() {});
     result.addAll(value);
     return result;
   }
