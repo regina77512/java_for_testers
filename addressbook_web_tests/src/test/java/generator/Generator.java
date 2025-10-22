@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import common.CommonFunctions;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import model.GroupData;
@@ -67,8 +68,11 @@ public class Generator {
     if ("json".equals(format)) {
       ObjectMapper mapper = new ObjectMapper();
       mapper.enable(SerializationFeature.INDENT_OUTPUT);
-      mapper.writeValue(new File(output), data);//указываем в какой файл хотим
-      // записать и какие данные хоти сохранить
+      var json = mapper.writeValueAsString(data);
+
+     try (var writer = new FileWriter(output)) {
+       writer.write(json);
+     }
     } else {
       throw new IllegalArgumentException("Неизвестный формат данных " + format);
     }
