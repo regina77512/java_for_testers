@@ -1,6 +1,10 @@
 package tests;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import common.CommonFunctions;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -11,24 +15,21 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class GroupCreationTests extends TestBase {
 
-  public static List<GroupData> groupProvider() {
+  public static List<GroupData> groupProvider() throws IOException {
     var result = new ArrayList<GroupData>();
-    for (var name : List.of("", "group name")) {
-      for (var header : List.of("", "group header")) {
-        for (var footer : List.of("", "group footer")) {
-          result.add(new GroupData()
-              .withName(name)
-              .withHeader(header)
-              .withFooter(footer));
-        }
-      }
-    }
-    for (int i = 0; i < 5; i++) {
-      result.add(new GroupData() //вызывается конструктор без параметров, а потом создаются объекты
-          .withName(CommonFunctions.randomString(i * 10)) // с модифицированным именем
-          .withHeader(CommonFunctions.randomString(i * 10)) // хедером
-          .withFooter(CommonFunctions.randomString(i * 10))); // и футером
-    }
+//    for (var name : List.of("", "group name")) {
+//      for (var header : List.of("", "group header")) {
+//        for (var footer : List.of("", "group footer")) {
+//          result.add(new GroupData()
+//              .withName(name)
+//              .withHeader(header)
+//              .withFooter(footer));
+//        }
+//      }
+//    }
+    ObjectMapper mapper = new ObjectMapper();
+    var value = mapper.readValue(new File("groups.json"), new TypeReference<List<GroupData>>() {});
+    result.addAll(value);
     return result;
   }
 
