@@ -1,7 +1,6 @@
 package tests;
 
-import static tests.TestBase.app;
-
+import common.CommonFunctions;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -28,9 +27,9 @@ public class ContactCreationTests extends TestBase{
     }
     for (int i = 0; i < 5; i++){
       result.add(new ContactData()
-          .withFirstName(randomString(i * 10))
-          .withLastName(randomString(i * 10))
-          .withAddress(randomString(i * 10))
+          .withFirstName(CommonFunctions.randomString(i * 10))
+          .withLastName(CommonFunctions.randomString(i * 10))
+          .withAddress(CommonFunctions.randomString(i * 10))
           .withPhoto(randomFile("src/test/resources/images"))
       );
     }

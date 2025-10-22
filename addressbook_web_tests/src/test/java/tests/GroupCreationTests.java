@@ -1,5 +1,6 @@
 package tests;
 
+import common.CommonFunctions;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -24,9 +25,9 @@ public class GroupCreationTests extends TestBase {
     }
     for (int i = 0; i < 5; i++) {
       result.add(new GroupData() //вызывается конструктор без параметров, а потом создаются объекты
-          .withName(randomString(i * 10)) // с модифицированным именем
-          .withHeader(randomString(i * 10)) // хедером
-          .withFooter(randomString(i * 10))); // и футером
+          .withName(CommonFunctions.randomString(i * 10)) // с модифицированным именем
+          .withHeader(CommonFunctions.randomString(i * 10)) // хедером
+          .withFooter(CommonFunctions.randomString(i * 10))); // и футером
     }
     return result;
   }
