@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import model.ContactData;
 import model.GroupData;
 
 public class Generator {
@@ -63,7 +64,16 @@ public class Generator {
   }
 
   private Object generateContacts() {
-    return null;
+    var result = new ArrayList<ContactData>();
+    for (int i = 0; i < count; i++){
+      result.add(new ContactData()
+          .withFirstName(CommonFunctions.randomString(i * 10))
+          .withLastName(CommonFunctions.randomString(i * 10))
+          .withAddress(CommonFunctions.randomString(i * 10))
+          .withPhoto(CommonFunctions.randomFile("src/test/resources/images"))
+      );
+    }
+    return result;
   }
 
   private void save(Object data) throws IOException {

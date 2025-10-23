@@ -1,38 +1,39 @@
 package tests;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import common.CommonFunctions;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import model.ContactData;
+import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class ContactCreationTests extends TestBase{
 
-  public static List<ContactData> contactProvider() {
+  public static List<ContactData> contactProvider() throws IOException {
     var result = new ArrayList<ContactData>();
-    for (var firstname : List.of("", "Андрей")) {
-      for (var lastname : List.of("", "Сидоров")) {
-        for (var address : List.of("", "ул. Авроры 121")) {
-              result.add(new ContactData()
-                  .withLastName(lastname)
-                  .withFirstName(firstname)
-                  .withAddress(address)
-                  .withPhoto(randomFile("src/test/resources/images"))
-              );
-            }
-          }
-    }
-    for (int i = 0; i < 5; i++){
-      result.add(new ContactData()
-          .withFirstName(CommonFunctions.randomString(i * 10))
-          .withLastName(CommonFunctions.randomString(i * 10))
-          .withAddress(CommonFunctions.randomString(i * 10))
-          .withPhoto(randomFile("src/test/resources/images"))
-      );
-    }
+//    for (var firstname : List.of("", "Андрей")) {
+//      for (var lastname : List.of("", "Сидоров")) {
+//        for (var address : List.of("", "ул. Авроры 121")) {
+//              result.add(new ContactData()
+//                  .withLastName(lastname)
+//                  .withFirstName(firstname)
+//                  .withAddress(address)
+//                  .withPhoto(CommonFunctions.randomFile("src/test/resources/images"))
+//              );
+//            }
+//          }
+//    }
+    ObjectMapper mapper = new ObjectMapper();
+    var value = mapper.readValue(new File("contacts.json"), new TypeReference<List<ContactData>>() {});
+    result.addAll(value);
     return result;
   }
 
