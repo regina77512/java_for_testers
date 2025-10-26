@@ -11,10 +11,10 @@ public class GroupModificationTests extends TestBase{
 
   @Test
   void canModifyGroup(){
-    if (app.groups().getCount() == 0){          //если нет ни одной группы, создаем новую
-      app.groups().createGroup(new GroupData("", "group name", "group header", "group footer"));
+    if (app.hbm().getGroupCount() == 0) {
+      app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
     }
-    var oldGroups = app.groups().getList();//загружается список групп из веб-приложения
+    var oldGroups = app.hbm().getGroupList();//загружается список групп из базы
     var rnd = new Random();
     var index = rnd.nextInt(oldGroups.size());
     var testData = new GroupData().withName("modified name");
@@ -22,7 +22,7 @@ public class GroupModificationTests extends TestBase{
     // вызов метода, который модифицирует группу
     // метод modifyGroup, у которого в качестве параметра передается объект типа GroupData, который
     // содержит новый набор свойств
-    var newGroups = app.groups().getList();//после модификации загружается новый список групп
+    var newGroups = app.hbm().getGroupList();//после модификации загружается новый список групп
     var expectedList = new ArrayList<>(oldGroups);//строится ожидаемое значение, путем копирования
     expectedList.set(index, testData.withId(oldGroups.get(index).id()));//старого списка и замены в нем одного объекта
     Comparator<GroupData> compareById = (o1, o2) -> {
