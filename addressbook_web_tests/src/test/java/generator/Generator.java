@@ -70,7 +70,7 @@ public class Generator {
           .withFirstName(CommonFunctions.randomString(i * 10))
           .withLastName(CommonFunctions.randomString(i * 10))
           .withAddress(CommonFunctions.randomString(i * 10))
-          .withPhoto(CommonFunctions.randomFile("src/test/resources/images"))
+         // .withPhoto(CommonFunctions.randomFile("src/test/resources/images"))
       );
     }
     return result;

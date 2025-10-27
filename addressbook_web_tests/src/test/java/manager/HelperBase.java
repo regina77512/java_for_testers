@@ -21,9 +21,9 @@ public class HelperBase {
     manager.driver.findElement(locator).sendKeys(text);
   }
 
-  protected void attach(By locator, String file) {
+/*  protected void attach(By locator, String file) {
     manager.driver.findElement(locator).sendKeys(Paths.get(file).toAbsolutePath().toString());
     //в методе sedKeys в качестве параметра должен быть абсолютный путь к файлу
     //Paths - класс, который работает с путями файла
-  }
+  }*/
 }

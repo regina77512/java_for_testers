@@ -2,7 +2,9 @@ package manager;
 
 import java.util.ArrayList;
 import java.util.List;
+import manager.hbm.ContactRecord;
 import manager.hbm.GroupRecord;
+import model.ContactData;
 import model.GroupData;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
@@ -16,7 +18,7 @@ public class HibernateHelper extends HelperBase{
     super(manager);
 
     sessionFactory = new Configuration()
-            //.addAnnotatedClass(Book.class)
+            .addAnnotatedClass(ContactRecord.class)
             .addAnnotatedClass(GroupRecord.class)
             .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook")
             .setProperty(AvailableSettings.USER, "root")
@@ -64,4 +66,32 @@ public class HibernateHelper extends HelperBase{
       session.getTransaction().commit();
     });
   }
+
+  static List<ContactData> convertContactList(List<ContactRecord> records) {
+    List<ContactData> result = new ArrayList<>();
+    for (var record : records) {
+      result.add(convert(record));
+    }
+    return result;
+  }
+
+  private static ContactData convert(ContactRecord record) {
+    return new ContactData().withId("" + record.id).withLastName(record.lastname)
+        .withFirstName(record.firstname).withAddress(record.address);
+  }
+
+  private static ContactRecord convert(ContactData data) {  //метод, кот-рый из объекта типа ContactData строит объект типа ContactRecord
+    var id = data.id();
+    if ("".equals(id)) {
+      id = "0";
+    }
+    return new ContactRecord(Integer.parseInt(id), data.lastName(), data.firstName(), data.address());
+  }
+
+  public List<ContactData> getContactList() {
+    return convertContactList(sessionFactory.fromSession(session -> {
+      return session.createQuery("from ContactRecord", ContactRecord.class).list();
+    }));
+  }
+
 }

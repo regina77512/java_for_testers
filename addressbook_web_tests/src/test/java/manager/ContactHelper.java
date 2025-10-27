@@ -33,7 +33,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("firstname"), contact.firstName());
     type(By.name("lastname"), contact.lastName());
     type(By.name("address"), contact.address());
-    attach(By.name("photo"), contact.photo());
+    //attach(By.name("photo"), contact.photo());
   }
 
   public void openContactAddPage() {
