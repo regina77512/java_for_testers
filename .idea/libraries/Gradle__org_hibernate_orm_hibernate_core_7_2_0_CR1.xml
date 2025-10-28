@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate.orm/hibernate-core/7.2.0.CR1/325115919cccdd112e8674db4048ee805f867882/hibernate-core-7.2.0.CR1.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate.orm/hibernate-core/7.2.0.CR1/b0a94b607335e88451db54b803d6f6f4c6b979ad/hibernate-core-7.2.0.CR1-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
