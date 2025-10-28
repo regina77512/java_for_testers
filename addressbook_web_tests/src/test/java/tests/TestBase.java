@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import manager.ApplicationManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 public class TestBase {
@@ -19,5 +20,10 @@ public class TestBase {
       app = new ApplicationManager();
       app.init(System.getProperty("browser","firefox"), properties);
     }
+  }
+
+  @AfterEach
+  void checkDatabaseConsistency() {
+    app.jdbc().checkConsistyncy();
   }
 }
