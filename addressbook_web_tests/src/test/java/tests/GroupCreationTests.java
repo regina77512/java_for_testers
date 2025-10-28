@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class GroupCreationTests extends TestBase {
 
-  public static List<GroupData> groupProvider() throws IOException {
+/*  public static List<GroupData> groupProvider() throws IOException {
     var result = new ArrayList<GroupData>();
 //    for (var name : List.of("", "group name")) {
 //      for (var header : List.of("", "group header")) {
@@ -50,7 +50,7 @@ public class GroupCreationTests extends TestBase {
     var value = mapper.readValue(new File("groups.xml"), new TypeReference<List<GroupData>>() {});
     result.addAll(value);
     return result;
-  }
+  }*/
 
   public static List<GroupData> singleRandomGroup() {
     return List.of(new GroupData()
@@ -86,9 +86,9 @@ public class GroupCreationTests extends TestBase {
   @ParameterizedTest
   @MethodSource("negativeGroupProvider")
   public void canNotCreateMultipleGroups(GroupData group) {
-    var oldGroups = app.groups().getList();
+    var oldGroups = app.hbm().getGroupList();
     app.groups().createGroup(group);
-    var newGroups = app.groups().getList();
+    var newGroups = app.hbm().getGroupList();
     Assertions.assertEquals(newGroups, oldGroups);
   }
 }

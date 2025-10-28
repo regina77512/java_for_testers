@@ -20,7 +20,7 @@ public class HibernateHelper extends HelperBase{
     sessionFactory = new Configuration()
             .addAnnotatedClass(ContactRecord.class)
             .addAnnotatedClass(GroupRecord.class)
-            .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook")
+            .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook?zeroDateTimeBehavior=CONVERT_TO_NULL")
             .setProperty(AvailableSettings.USER, "root")
             .setProperty(AvailableSettings.PASS, "")
             .buildSessionFactory();
