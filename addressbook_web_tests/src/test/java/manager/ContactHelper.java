@@ -39,6 +39,23 @@ public class ContactHelper extends HelperBase {
     returnHomePage();
   }
 
+public void removeContactFromGroup(ContactData contact, GroupData group) {
+    openContactsPage();
+    selectGroupInContactPage(group);
+    selectContact(contact);
+    removeSelectedContactFromGroup();
+    //returnHomePage();
+  }
+
+    private void selectGroupInContactPage(GroupData group) {
+      //click(By.name("group"));
+      new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
+  }
+
+  private void removeSelectedContactFromGroup() {
+    click(By.name("remove"));
+  }
+
   private void submitContactCreation() {
     click(By.xpath("(//input[@name=\'submit\'])[2]"));
   }

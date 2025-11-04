@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import common.CommonFunctions;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import model.ContactData;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
@@ -75,12 +77,21 @@ public class ContactCreationTests extends TestBase {
     if (app.hbm().getGroupCount() == 0) {
       app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
     }
-    var group = app.hbm().getGroupList().get(0); //выбирается группа, в к-ую будет включен контакт
-
-    var oldRelated = app.hbm().getContactsInGroup(group);
-    app.contacts().createContact(contact, group);
-    var newRelated = app.hbm().getContactsInGroup(group);
-    Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+    var group = app.hbm().getGroupList();
+    var rndGroup = new Random();
+    var indexGroup = rndGroup.nextInt(group.size());
+    var oldRelated = app.hbm().getContactsInGroup(group.get(indexGroup));
+    app.contacts().createContact(contact, group.get(indexGroup));
+    var newRelated = app.hbm().getContactsInGroup(group.get(indexGroup));
+    var maxId = newRelated.get(newRelated.size() - 1).id();
+    var expectedList = new ArrayList<ContactData>(oldRelated);
+    expectedList.add(contact.withId(maxId));
+    Comparator<ContactData> compareById = (o1, o2) -> {
+      return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+    };
+    newRelated.sort(compareById);
+    expectedList.sort(compareById);
+    Assertions.assertEquals(newRelated, expectedList);
   }
 }
 
