@@ -4,6 +4,8 @@ import common.CommonFunctions;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -42,11 +44,12 @@ public class GroupCreationTests extends TestBase {
     return result;
   }*/
 
-  public static List<GroupData> singleRandomGroup() {
-    return List.of(new GroupData()
+  public static Stream<GroupData> singleRandomGroup() {
+    Supplier<GroupData> randomGroup = () -> new GroupData()
         .withName(CommonFunctions.randomString(10))
         .withHeader(CommonFunctions.randomString(20))
-        .withFooter(CommonFunctions.randomString(30)));
+        .withFooter(CommonFunctions.randomString(30));
+    return Stream.generate(randomGroup).limit(3);
   }
 
   public static List<GroupData> negativeGroupProvider() {

@@ -1,7 +1,5 @@
 package ru.stqa.geometry.figures;
 
-import java.util.Objects;
-
 public class Square {
   double side;
 
@@ -26,8 +24,13 @@ public class Square {
     }
   }
 
-  public static void printSquareArea(Square s) {
+  public static void printArea(Square s) {
     String text = String.format("Площадь квадрата со стороной %f = %f", s.side, s.area());
+    System.out.println(text);
+  }
+
+  public static void printPerimeter(Square s) {
+    String text = String.format("Периметр квадрата со стороной %f = %f", s.side, s.perimeter());
     System.out.println(text);
   }
 

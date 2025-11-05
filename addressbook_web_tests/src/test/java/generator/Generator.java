@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import model.ContactData;
 import model.GroupData;
 
@@ -52,28 +55,21 @@ public class Generator {
     }
   }
 
+  private Object generateData(Supplier<Object> dataSupplier) {
+    return Stream.generate(dataSupplier).limit(count).collect(Collectors.toList());
+  }
+
   private Object generateGroups() {
-    var result = new ArrayList<GroupData>();
-    for (int i = 0; i < count; i++) {
-      result.add(new GroupData() //вызывается конструктор без параметров, а потом создаются объекты
-          .withName(CommonFunctions.randomString(i * 10)) // с модифицированным именем
-          .withHeader(CommonFunctions.randomString(i * 10)) // хедером
-          .withFooter(CommonFunctions.randomString(i * 10))); // и футером
-    }
-    return result;
+    return generateData(() -> new GroupData()
+        .withName(CommonFunctions.randomString(10))
+        .withHeader(CommonFunctions.randomString(19))
+        .withFooter(CommonFunctions.randomString(10)));
   }
 
   private Object generateContacts() {
-    var result = new ArrayList<ContactData>();
-    for (int i = 0; i < count; i++) {
-      result.add(new ContactData()
-          .withFirstName(CommonFunctions.randomString(i * 10))
-          .withLastName(CommonFunctions.randomString(i * 10))
-          .withAddress(CommonFunctions.randomString(i * 10))
-         // .withPhoto(CommonFunctions.randomFile("src/test/resources/images"))
-      );
-    }
-    return result;
+    return generateData(() -> new ContactData()
+        .withLastName(CommonFunctions.randomString(10))
+        .withFirstName(CommonFunctions.randomString(10)));
   }
 
   private void save(Object data) throws IOException {

@@ -1,24 +1,29 @@
 package ru.stqa.geometry;
 
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
-import ru.stqa.geometry.figures.Rectangle;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 import ru.stqa.geometry.figures.Square;
-import ru.stqa.geometry.figures.Triangle;
 
 public class Geometry {
 
   public static void main(String[] args) {
-    var squares = List.of(new Square(7), new Square(5), new Square(3));
-//    for (Square square : squares) {
-//      Square.printSquareArea(square);
-//    }
+    Supplier<Square> randomSquare = () -> new Square(new Random().nextDouble()*100.0);
+    var squares = Stream.generate(randomSquare).limit(5);
 
-    squares.forEach(Square::printSquareArea);//forEach - метод у списка, в который можно передать функцию и эта ф-ция
+    squares.peek(Square::printArea).forEach(Square::printPerimeter);
+  // forEach - метод у списка, в который можно передать функцию и эта ф-ция
     // будет применена ко всем эл-там списка, бывает 3 типа ф-ции:
-    // - consumer - принимает на вход параметр, но ничего не возвращает
-    // - producer - не принимает ничего на вход, но что-то возвращает
-    // - настоящая ф-ция - что-то принимает на вход и что-то возвращает
+    // 1. consumer - принимает на вход параметр, но ничего не возвращает
+    // 2. producer - не принимает ничего на вход, но что-то возвращает
+    // 3. настоящая ф-ция - что-то принимает на вход и что-то возвращает
+  // peek - эта ф-ция берет эл-т из потока и применяет к нему какой-то consumer, но при этом объект продолжает двигаться по потоку
+// forEach - терминальный консьюмер, который потребляет все, что осталось и дальше объекты не идут
+// а peek работает с объектами в движущемся потоке
+
+
 
 //    Rectangle.printRectangleArea(3.0, 5.0);
 //    Rectangle.printRectangleArea(7.0, 9.0);
