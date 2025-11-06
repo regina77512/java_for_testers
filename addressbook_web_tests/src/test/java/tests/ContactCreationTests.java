@@ -93,6 +93,42 @@ public class ContactCreationTests extends TestBase {
     expectedList.sort(compareById);
     Assertions.assertEquals(newRelated, expectedList);
   }
+
+  @Test
+  void canAddContactToGroup() {
+    if (app.hbm().getContactCount() == 0){
+      app.hbm().createContact(new ContactData("", "Юлия", "Калашникова", "ул.Ленина 1"));
+    }
+    if (app.hbm().getGroupCount() == 0) {
+      app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
+    }
+    var contacts = app.hbm().getContactList();
+    var groups = app.hbm().getGroupList();
+    ContactData contactToAdd = null;
+    GroupData groupToAdd = null;
+    for (var group : groups){ // Пробегаем по группам
+      var contactsInGroup = app.hbm().getContactsInGroup(group); // Получаем список контактов, которые есть в группе
+      for (var contact : contacts) { // Пробегаем по контактам в группе
+        if (!contactsInGroup.contains(contact)) { // Проверяем, есть ли контакт в текущей группе
+          contactToAdd = contact;
+          groupToAdd = group;
+          break;
+        }
+      }
+      if (contactToAdd != null) {
+        break;
+      }
+    }
+    if (contactToAdd == null) { // Если все контакты уже во всех группах, то создаем новую группу
+      app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
+      groups = app.hbm().getGroupList();
+      groupToAdd = groups.get(groups.size() - 1); // Берем последнюю группу (новая)
+      contactToAdd = contacts.get(0); // Берем первый контакт и добавляем его
+    }
+
+    var oldRelated = app.hbm().getContactsInGroup(groupToAdd).size();
+    app.contacts().addContactToGroup(contactToAdd, groupToAdd);
+    var newRelated = app.hbm().getContactsInGroup(groupToAdd).size();
+    Assertions.assertEquals(oldRelated + 1, newRelated);
+  }
 }
-
-

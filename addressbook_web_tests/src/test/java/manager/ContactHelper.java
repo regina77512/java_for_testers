@@ -47,7 +47,22 @@ public void removeContactFromGroup(ContactData contact, GroupData group) {
     //returnHomePage();
   }
 
-    private void selectGroupInContactPage(GroupData group) {
+  public void addContactToGroup(ContactData contact, GroupData group) {
+    openContactsPage();
+    selectContact(contact);
+    selectGroupToAddContact(group);
+    addContactInGroup();
+  }
+
+  private void addContactInGroup() {
+    click(By.name("add"));
+  }
+
+  private void selectGroupToAddContact(GroupData group) {
+    new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
+  }
+
+  private void selectGroupInContactPage(GroupData group) {
       //click(By.name("group"));
       new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
   }
