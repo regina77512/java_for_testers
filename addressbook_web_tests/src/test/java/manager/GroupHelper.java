@@ -2,6 +2,7 @@ package manager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -98,15 +99,15 @@ public class GroupHelper extends HelperBase {
 
   public List<GroupData> getList() {
     openGroupsPage();
-    var groups = new ArrayList<GroupData>(); // пустой список, в который будут складываться группы
     var spans = manager.driver.findElements(By.cssSelector(
         "span.group"));//получение со страницы списка элементов, который сод-т инф-ю о группах
-    for (var span : spans) {
-      var name = span.getText();
-      var checkbox = span.findElement(By.name("selected[]"));
-      var id = checkbox.getAttribute("value");
-      groups.add(new GroupData().withId(id).withName(name));
-    }
-    return groups;
+    return spans.stream()
+        .map(span -> {
+          var name = span.getText();
+          var checkbox = span.findElement(By.name("selected[]"));
+          var id = checkbox.getAttribute("value");
+          return new GroupData().withId(id).withName(name);
+        })
+        .collect(Collectors.toList());
   }
 }

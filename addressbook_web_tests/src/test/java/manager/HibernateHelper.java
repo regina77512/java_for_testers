@@ -2,6 +2,7 @@ package manager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import manager.hbm.ContactRecord;
 import manager.hbm.GroupRecord;
 import model.ContactData;
@@ -27,12 +28,8 @@ public class HibernateHelper extends HelperBase{
 
   }
 
-  static List<GroupData> convertList(List<GroupRecord> records) {
-    List<GroupData> result = new ArrayList<>();
-    for (var record : records) {
-      result.add(convert(record));
-    }
-    return result;
+  static List<GroupData> convertGroupList(List<GroupRecord> records) {
+    return records.stream().map(HibernateHelper::convert).collect(Collectors.toList());
   }
 
   private static GroupData convert(GroupRecord record) { //метод, кот-рый из объекта типа GroupRecord строит объект типа GroupData
@@ -49,7 +46,7 @@ public class HibernateHelper extends HelperBase{
 
   public List<GroupData> getGroupList() {
     return sessionFactory.fromSession(session -> {
-      return convertList(session.createQuery("from GroupRecord", GroupRecord.class).list());
+      return convertGroupList(session.createQuery("from GroupRecord", GroupRecord.class).list());
     });
   }
 
@@ -68,11 +65,7 @@ public class HibernateHelper extends HelperBase{
   }
 
   static List<ContactData> convertContactList(List<ContactRecord> records) {
-    List<ContactData> result = new ArrayList<>();
-    for (var record : records) {
-      result.add(convert(record));
-    }
-    return result;
+    return records.stream().map(HibernateHelper::convert).collect(Collectors.toList());
   }
 
   private static ContactData convert(ContactRecord record) {

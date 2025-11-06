@@ -3,15 +3,20 @@ package common;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CommonFunctions {
 
   public static String randomString(int n) {
     var rnd = new Random();
-    var result = "";
-    for (int i = 0; i < n; i++){
-      result = result + (char)('a' + rnd.nextInt(26));
-    }
+    Supplier<Integer> randomNumbers = () -> rnd.nextInt(26); // Генер-ся случ.число от 0 до 26
+    var result = Stream.generate(randomNumbers) // Созд-ся поток, используя генератор
+        .limit(n)
+        .map(i -> 'a' + i) // ф-ция-трансформатор, из числа создает код буквы
+        .map(Character::toString) // ф-ция-трансформатор, преобраз-т код в символ
+        .collect(Collectors.joining()); // сбор всего в строку
     return result;
   }
 
