@@ -1,6 +1,5 @@
 package tests;
 
-import jakarta.persistence.criteria.CriteriaBuilder.In;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
@@ -14,7 +13,8 @@ public class ContactRemovalTests extends TestBase{
   @Test
   void canRemoveContact(){
     if (app.hbm().getContactCount() == 0){
-      app.hbm().createContact(new ContactData("", "Сергей", "Колодежнов", "ул.Тухачевского 7"));
+      app.hbm().createContact(new ContactData("", "Сергей", "Колодежнов", "ул.Тухачевского 7", "",
+          "", "", ""));
     }
     var oldContacts = app.hbm().getContactList();
     var rnd = new Random();

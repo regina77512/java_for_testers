@@ -147,4 +147,9 @@ public void removeContactFromGroup(ContactData contact, GroupData group) {
   private void initContactModification(ContactData contact) {
     click(By.cssSelector(String.format("a[href*='edit.php?id=%s'] img", contact.id())));
   }
+
+  public String getPhones(ContactData contact) {
+    return manager.driver.findElement(By.xpath(
+        String.format("//input[@id='%s']/../../td[6]", contact.id()))).getText();
+  }
 }

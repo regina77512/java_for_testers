@@ -1,6 +1,5 @@
 package manager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import manager.hbm.ContactRecord;
@@ -70,7 +69,9 @@ public class HibernateHelper extends HelperBase{
 
   private static ContactData convert(ContactRecord record) {
     return new ContactData().withId("" + record.id).withLastName(record.lastname)
-        .withFirstName(record.firstname).withAddress(record.address);
+        .withFirstName(record.firstname).withAddress(record.address)
+        .withHome(record.home).withMobile(record.mobile)
+        .withWork(record.work).withSecondary(record.phone2);
   }
 
   private static ContactRecord convert(ContactData data) {  //метод, кот-рый из объекта типа ContactData строит объект типа ContactRecord
