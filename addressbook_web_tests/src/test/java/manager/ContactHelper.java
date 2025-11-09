@@ -166,4 +166,36 @@ public void removeContactFromGroup(ContactData contact, GroupData group) {
     }
     return result;
   }
+
+  public String getAddress(ContactData contact) {
+    return manager.driver.findElement(By.xpath(
+        String.format("//input[@id='%s']/../../td[4]", contact.id()))).getText();
+  }
+
+  public Map<String, String> getAddress() {
+    var result = new HashMap<String, String>();
+    List<WebElement> rows = manager.driver.findElements(By.name("entry"));
+    for (WebElement row : rows) {
+      var id = row.findElement(By.tagName("input")).getAttribute("id");
+      var addresses = row.findElements(By.tagName("td")).get(3).getText();
+      result.put(id, addresses);
+    }
+    return result;
+  }
+
+  public String getEmail(ContactData contact) {
+    return manager.driver.findElement(By.xpath(
+        String.format("//input[@id='%s']/../../td[5]", contact.id()))).getText();
+  }
+
+  public Map<String, String> getEmail() {
+    var result = new HashMap<String, String>();
+    List<WebElement> rows = manager.driver.findElements(By.name("entry"));
+    for (WebElement row : rows) {
+      var id = row.findElement(By.tagName("input")).getAttribute("id");
+      var emails = row.findElements(By.tagName("td")).get(4).getText();
+      result.put(id, emails);
+    }
+    return result;
+  }
 }

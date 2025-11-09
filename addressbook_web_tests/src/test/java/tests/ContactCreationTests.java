@@ -95,8 +95,8 @@ public class ContactCreationTests extends TestBase {
   @Test
   void canAddContactToGroup() {
     if (app.hbm().getContactCount() == 0){
-      app.hbm().createContact(new ContactData("", "Юлия", "Калашникова", "ул.Ленина 1", "", "", "",
-          ""));
+      app.hbm().createContact(new ContactData("", "Юлия", "Калашникова", "ул.Ленина 1", "1234", "4321", "2222",
+          "3333", "s@mail.ru", "test@gmail.com", "email@ya.ru"));
     }
     if (app.hbm().getGroupCount() == 0) {
       app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));

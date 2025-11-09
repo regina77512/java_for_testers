@@ -71,7 +71,8 @@ public class HibernateHelper extends HelperBase{
     return new ContactData().withId("" + record.id).withLastName(record.lastname)
         .withFirstName(record.firstname).withAddress(record.address)
         .withHome(record.home).withMobile(record.mobile)
-        .withWork(record.work).withSecondary(record.phone2);
+        .withWork(record.work).withSecondary(record.phone2)
+        .withEmail(record.email).withEmail2(record.email2).withEmail3(record.email3);
   }
 
   private static ContactRecord convert(ContactData data) {  //метод, кот-рый из объекта типа ContactData строит объект типа ContactRecord
