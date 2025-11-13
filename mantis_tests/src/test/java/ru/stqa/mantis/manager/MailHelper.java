@@ -1,10 +1,8 @@
 package ru.stqa.mantis.manager;
 
 import jakarta.mail.Flags;
-import jakarta.mail.Flags.Flag;
 import jakarta.mail.Folder;
 import jakarta.mail.MessagingException;
-import jakarta.mail.NoSuchProviderException;
 import jakarta.mail.Session;
 import jakarta.mail.Store;
 import java.io.IOException;
@@ -12,6 +10,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 import ru.stqa.mantis.model.MailMessage;
 
@@ -22,11 +21,11 @@ public class MailHelper extends HelperBase{
     super(manager);
   }
 
-  public List<MailMessage> receive(String username, String password, Duration duration) {
+  public List<MailMessage> receive(String email, String password, Duration duration) {
     var start = System.currentTimeMillis();
     while (System.currentTimeMillis() < start + duration.toMillis()) {
       try {
-        var inbox = getInbox(username, password);
+        var inbox = getInbox(email, password);
         inbox.open(Folder.READ_ONLY);
         var messages = inbox.getMessages(); // читаем почту
         var result = Arrays.stream(messages).map(m -> {
@@ -56,11 +55,11 @@ public class MailHelper extends HelperBase{
   }
 
   @NotNull
-  private static Folder getInbox(String username, String password) {
+  private static Folder getInbox(String email, String password) {
     try {
       var session = Session.getInstance(new Properties());
       Store store = session.getStore("pop3"); // получение доступа к хранилищу
-      store.connect("localhost", username, password); // установка соединения
+      store.connect("localhost", email, password); // установка соединения
       var inbox = store.getFolder("INBOX"); // открываем почтовый ящик
       return inbox;
     } catch (MessagingException e) {
@@ -85,5 +84,17 @@ public class MailHelper extends HelperBase{
     } catch (MessagingException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public String extractUrl(String email, String password) {
+    var messages = receive(email, password, Duration.ofSeconds(10));
+    var text = messages.get(0).content();
+    var pattern = Pattern.compile("http://\\S*");
+    var matcher = pattern.matcher(text);
+    String url = null;
+    if (matcher.find()) {
+      url = text.substring(matcher.start(), matcher.end());
+    }
+    return url;
   }
 }
