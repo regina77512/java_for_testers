@@ -25,6 +25,21 @@ public class UserRegistrationTests extends TestBase {
     var username = userData.username();
     var email = String.format("%s@localhost", username);
     var password = "password";
+    app.jamesCli().addUser(email,password); // создать пользователя (адрес) на почтовом сервере (JamesHelper)
+    app.browser().createUser(username, email);  // заполняем форму создания и отправляем (браузер)
+    app.mail().receive(email, password, Duration.ofSeconds(10)); // ждем почту (MailHelper)
+    var url = app.mail().extractUrl(email, password); // извлекаем ссылку из письма
+    app.browser().finishRegistration(username, password, url); // проходим по ссылке и завершаем регистрацию (браузер)
+    app.http().login(username, password);// проверяем, что пользователь может залогиниться (HttpSessionHelper)
+    Assertions.assertTrue(app.http().isLoggedIn());
+  }
+
+  @ParameterizedTest
+  @MethodSource("randomUser")
+  void canRegisterUserRestApi(UserData userData) throws IOException, InterruptedException {
+    var username = userData.username();
+    var email = String.format("%s@localhost", username);
+    var password = "password";
     app.jamesApi().addUser(email,password); // создать пользователя (адрес) на почтовом сервере (JamesHelper)
     app.browser().createUser(username, email);  // заполняем форму создания и отправляем (браузер)
     app.mail().receive(email, password, Duration.ofSeconds(10)); // ждем почту (MailHelper)
