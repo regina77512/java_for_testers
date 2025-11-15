@@ -51,4 +51,32 @@ public class BrowserHelper extends HelperBase {
   private void signupForNewAccount() {
     click(By.cssSelector("a[href=\"signup_page.php\"]"));
   }
+
+  public void startCreateUser(String user) {
+    loginAdmin();
+    selectManage();
+    selectUsers();
+    submitCreateNewAccount();
+    fillUserFormRegistration(user);
+    submitCreateUser();
+    submitProceed(); //?
+  }
+
+  private void fillUserFormRegistration(String user) {
+  }
+
+  private void submitCreateUser() {
+  }
+
+  private void submitCreateNewAccount() {
+  }
+
+  private void selectUsers() {
+  }
+
+  private void selectManage() {
+  }
+
+  private void loginAdmin() {
+  }
 }
