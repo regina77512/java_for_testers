@@ -12,6 +12,9 @@ public class ContactRemovalTests extends TestBase{
 
   @Test
   void canRemoveContact(){
+    System.out.println(">>> BEFORE: contact count = " + app.hbm().getContactCount());
+    app.hbm().getContactList().forEach(c ->
+        System.out.println("    id=" + c.id() + " | " + c.firstName()));
     if (app.hbm().getContactCount() == 0){
       app.hbm().createContact(new ContactData("", "Сергей", "Колодежнов", "ул.Тухачевского 7", "",
           "", "", "", "", "", ""));

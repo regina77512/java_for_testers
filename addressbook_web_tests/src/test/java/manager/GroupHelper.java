@@ -1,5 +1,6 @@
 package manager;
 
+import io.qameta.allure.Step;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ public class GroupHelper extends HelperBase {
     returnToGroupsPage();
   }
 
+  @Step
   public void removeGroup(GroupData group) {
     openGroupsPage();
     selectGroup(group);

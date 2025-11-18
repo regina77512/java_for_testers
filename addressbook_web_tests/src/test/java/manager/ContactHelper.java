@@ -1,5 +1,6 @@
 package manager;
 
+import io.qameta.allure.Step;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ContactHelper extends HelperBase {
     new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
   }
 
+  @Step
   public void removeContact(ContactData contact) {
     openContactsPage();
     selectContact(contact);
